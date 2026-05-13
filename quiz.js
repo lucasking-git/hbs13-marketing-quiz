@@ -146,7 +146,7 @@ const QUESTIONS = [
   {
     id: 23, type: 'mc',
     text: '어카운트 매니저(Account Manager)는 주로 어떤 분야에서 사용되는 용어인가요?',
-    options: ['위계 관리', '마케팅 기획', 'B2B 영업', '고객 지원'],
+    options: ['회계', '마케팅', 'B2B 영업', '고객 지원'],
     answer: 2,
     explanation: '어카운트 매니저(Account Manager)는 주로 B2B 영업에서 사용되는 용어이며, 특정 고객사(어카운트)와의 비즈니스 관계를 전담 관리하는 역할입니다.'
   },
@@ -167,13 +167,13 @@ const QUESTIONS = [
   {
     id: 26, type: 'mc',
     text: '기계 구매 시 고려해야 할 가장 중요한 요소는 무엇인가요?',
-    options: ['구매 가격만', '유지비용 포함 총비용', '구매처의 위치', '제조사의 명성'],
+    options: ['구매 가격만', '유지 비용 포함', '구매처의 위치', '제조사의 명성'],
     answer: 1,
     explanation: '기계 구매 시 TCO(Total Cost of Ownership) 관점을 적용합니다. 구매 가격만이 아닌 운영·유지·수리 비용까지 포함하여 평가해야 장기적으로 올바른 결정을 내릴 수 있습니다.'
   },
   {
     id: 27, type: 'mc',
-    text: 'B2B 마케팅에서 가장 기본적으로 고려해야 하는 마케팅 믹스 요소는 무엇인가요?',
+    text: 'B2B 마케팅에서 가장 기본적으로 고려해야 하는 요소는 무엇인가요?',
     options: ['가격', '품질', '서비스', '브랜드 인지도'],
     answer: 0,
     explanation: '비투비 마케팅에서 가격은 가장 기본적으로 고려해야 하는 요소입니다. 가격 결정은 마케팅 전략에서 핵심이며, 고객사에 제공되는 가치와 비용의 균형을 맞추는 것이 필요합니다.'
@@ -222,19 +222,19 @@ const QUESTIONS = [
   },
   {
     id: 34, type: 'mc',
-    text: '비투비 마케팅에서 중요한 역할을 하는 부서/활동은 무엇인가요?',
+    text: '비투비 마케팅에서 중요한 역할을 하는 것은 무엇인가요?',
     options: ['광고와 세일즈', '데이터 분석', '기획과 마케팅', '고객 서비스'],
     answer: 2,
     explanation: 'B2B 마케팅에서는 체계적인 기획과 마케팅 활동이 중요합니다. 고객 가치 제안을 전략적으로 기획하고, 고객-가치-기업을 연결하는 마케팅 활동이 핵심 역할을 담당합니다.'
   },
   {
     id: 35, type: 'mc',
-    text: 'OLED 모니터 제품 결정 상황에서, 기존 공급사 LG디스플레이와 신규 경쟁사 BOE의 제안 내용은?',
+    text: '애플과 OLED 모두 판매 협상 중인 상황에서, 경쟁사인 LG디스플레이와 BOE는 각각 어떤 할인을 제안했나요?',
     options: [
-      'LG디스플레이: 개당 5천원 할인, BOE: 개당 활동 지원 제안',
-      'LG디스플레이: 개당 활동 지원 제안, BOE: 개당 5천원 할인',
-      'LG디스플레이: 개당 1만원 할인, BOE: 개당 5천원 할인',
-      'LG디스플레이: 개당 5천원 할인, BOE: 개당 1만원 할인'
+      'LG디스플레이: 개당 5천원, BOE: 개당 만원 할인',
+      'LG디스플레이: 개당 만원, BOE: 개당 5천원 할인',
+      '두 회사 모두 개당 만원 할인',
+      '두 회사 모두 개당 5천원 할인'
     ],
     answer: 0,
     explanation: '기존 공급사 LG디스플레이는 개당 5천원 할인을 제안했고, 신규 경쟁사 BOE는 단순 가격 할인 외 활동 지원(Activity Support)을 제안하여 더 높은 가치를 제시했습니다.'
@@ -357,8 +357,11 @@ function showFeedbackModal(isCorrect, q) {
   document.getElementById('modal-emoji').textContent = isCorrect ? '🎉' : '😢';
 
   const expDiv = document.getElementById('modal-explanation');
+  const labelEl = document.getElementById('modal-correct-answer').parentElement;
+  expDiv.style.display = 'block';
+
   if (!isCorrect) {
-    expDiv.style.display = 'block';
+    labelEl.style.display = 'block';
     let correctLabel;
     if (q.type === 'ox') {
       correctLabel = q.answer;
@@ -367,10 +370,11 @@ function showFeedbackModal(isCorrect, q) {
       correctLabel = `${nums[q.answer]} ${q.options[q.answer]}`;
     }
     document.getElementById('modal-correct-answer').textContent = correctLabel;
-    document.getElementById('modal-exp-text').textContent = q.explanation;
   } else {
-    expDiv.style.display = 'none';
+    labelEl.style.display = 'none';
   }
+
+  document.getElementById('modal-exp-text').textContent = q.explanation;
 
   document.getElementById('btn-next').textContent = isLast ? '결과 보기' : '다음 문제 →';
   overlay.classList.add('visible');
